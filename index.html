@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rejestracja i logowanie - Wiara Przenosi Góry</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      background: #cce7ff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      flex-direction: column;
+    }
+
+    .container {
+      background: #ffffff;
+      color: #000;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 420px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .visible {
+      display: block;
+    }
+
+    h2 {
+      font-family: 'Pacifico', cursive;
+      font-size: 28px;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #1e3a8a;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="file"],
+    input[type="tel"] {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background: #f0f4ff;
+      color: #000;
+      margin-bottom: 10px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    input::placeholder {
+      color: #7f93c5;
+    }
+
+    input:focus {
+      outline: none;
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(90, 141, 238, 0.6);
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(to right, #5a8dee, #1e3a8a);
+      color: white;
+      font-size: 16px;
+      margin-top: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    button:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .profile-img {
+      display: block;
+      margin: 10px auto;
+      max-width: 100px;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .checkbox {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container visible" id="selector-container">
+    <h2>Witaj na blogu!</h2>
+    <button onclick="showLogin()">Zaloguj się</button>
+    <button onclick="showRegister()">Zarejestruj się</button>
+  </div>
+
+  <div class="container" id="register-container">
+    <h2>Rejestracja</h2>
+    <form id="register-form">
+      <label for="name">Imię i nazwisko</label>
+      <input type="text" id="name" required placeholder="Twoje imię i nazwisko" />
+
+      <label for="username">Nazwa użytkownika (wymyślona)</label>
+      <input type="text" id="username" required placeholder="np. SynBoży019" />
+      <button type="button" onclick="generateUsername()">Wylosuj nazwę</button>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" required placeholder="Twój email" />
+
+      <label for="phone">Numer telefonu</label>
+      <input type="tel" id="phone" required placeholder="Twój numer" />
+
+      <label for="password">Hasło</label>
+      <input type="password" id="password" required placeholder="Wprowadź hasło" />
+
+      <div class="checkbox">
+        <input type="checkbox" id="rodo" required />
+        <label for="rodo">Akceptuję politykę prywatności i RODO</label>
+      </div>
+
+      <button type="submit">Zarejestruj się</button>
+    </form>
+  </div>
+
+  <div class="container" id="login-container">
+    <h2>Logowanie</h2>
+    <form id="login-form">
+      <label for="login-email">Email</label>
+      <input type="email" id="login-email" required placeholder="Wprowadź swój email" />
+
+      <label for="login-password">Hasło</label>
+      <input type="password" id="login-password" required placeholder="Wprowadź swoje hasło" />
+
+      <button type="submit">Zaloguj się</button>
+    </form>
+  </div>
+
+  <div class="container" id="welcome-container">
+    <h2 id="welcome-message"></h2>
+    <button onclick="logout()">Wyloguj się</button>
+  </div>
+
+  <script>
+    function generateUsername() {
+      const baseNames = ["SynBoży", "BożaIskra", "Wędrowiec", "MiłośćPana", "ModlącySię", "Pielgrzym", "Służący", "Wybraniec", "Światłość", "PokójDucha", "DuchModlitwy", "GłosWiary", "SynŚwiatła", "Zaufany", "DzieckoNadziei", "SerceZModlitwy", "Wierny", "Poświęcony", "PrawdaBoga", "ŚladZbawcy", "ZnakŁaski", "NiebieskiSzlak", "WędrownyŚwięty", "Oczyszczony", "Oświecony", "MiłośćDoBoga", "SynNiebios", "Oblubieniec", "TęczowyKrzyż", "Wybaczający", "Zwycięzca", "Świadek", "Pokorny", "Cierpliwy", "MocnyWModlitwie", "StróżSłowa", "ObrońcaWiary", "AniołZiemi", "IskraZBoga", "SynMiłosierdzia", "GłosPana", "WędrownyPasterz", "Wierność", "PielgrzymPokoju", "ZaufanyPasterz", "PokójBoży", "OgieńDucha", "Natchniony", "Uzdrowiony", "Nowonarodzony"];
+      const randomBase = baseNames[Math.floor(Math.random() * baseNames.length)];
+      const number = Math.floor(100 + Math.random() * 900);
+      document.getElementById('username').value = `${randomBase}${number}`;
+    }
+
+    const selector = document.getElementById('selector-container');
+    const loginContainer = document.getElementById('login-container');
+    const registerContainer = document.getElementById('register-container');
+    const welcomeContainer = document.getElementById('welcome-container');
+    const welcomeMessage = document.getElementById('welcome-message');
+
+    function showLogin() {
+      selector.classList.remove('visible');
+      loginContainer.classList.add('visible');
+    }
+
+    function showRegister() {
+      selector.classList.remove('visible');
+      registerContainer.classList.add('visible');
+    }
+
+    document.getElementById('register-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const user = {
+        name: document.getElementById('name').value,
+        username: document.getElementById('username').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        password: document.getElementById('password').value
+      };
+      let users = JSON.parse(localStorage.getItem('users') || '[]');
+      users.push(user);
+      localStorage.setItem('users', JSON.stringify(users));
+      localStorage.setItem('loggedUser', JSON.stringify(user));
+      showWelcome(user);
+    });
+
+    document.getElementById('login-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const user = users.find(u => u.email === email && u.password === password);
+      if(user) {
+        localStorage.setItem('loggedUser', JSON.stringify(user));
+        showWelcome(user);
+      } else {
+        alert('Niepoprawny email lub hasło!');
+      }
+    });
+
+    function showWelcome(user) {
+      loginContainer.classList.remove('visible');
+      registerContainer.classList.remove('visible');
+      selector.classList.remove('visible');
+      welcomeMessage.textContent = `Witaj ${user.username}! Jesteś zalogowany.`;
+      welcomeContainer.classList.add('visible');
+    }
+
+    function logout() {
+      localStorage.removeItem('loggedUser');
+      welcomeContainer.classList.remove('visible');
+      selector.classList.add('visible');
+    }
+
+    window.onload = () => {
+      const user = JSON.parse(localStorage.getItem('loggedUser'));
+      if(user) {
+        showWelcome(user);
+      }
+    }
+  </script>
+</body>
+</html>
